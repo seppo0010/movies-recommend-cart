@@ -32,7 +32,10 @@ async function getMovies(): Promise<Movie[]> {
   return {
     budget: parseInt(m.budget || '0'),
     popularity: parseInt(m.popularity || '0'),
-    genres: getGenresId(JSON.parse((m.genres || '[]').replace(/'/g, '"'))),
+    genres: getGenresId(JSON.parse((m.genres || '[]').replace(/'/g, '"')).map((g: Genre) => {
+      g.name = g.name.replace(/"/g, "'")
+      return g
+    })),
     title: m.title || '',
     runtime: parseFloat(m.runtime || '0'),
     voteAverage: parseFloat(m.vote_average || '0'),
