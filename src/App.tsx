@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { getMovies, Movie } from './movies'
 import './App.css';
 import ShowMovie from './ShowMovie';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 
 // https://stackoverflow.com/a/2450976
 function shuffle(array: any[]): any[] {
@@ -25,17 +27,25 @@ function shuffle(array: any[]): any[] {
 
 
 function App() {
-  const [movie, setMovie] = useState<Movie | null>(null)
+  const [movies, setMovies] = useState<Movie[] | null>(null)
   useState(() => {
     (async () => {
      const movies = await getMovies()
-     setMovie(shuffle(movies.slice(0, 100))[0])
+     setMovies(shuffle(movies.slice(0, 12)))
     })()
   })
   return (
-    <div className="App">
-      {movie && <ShowMovie movie={movie} />}
-    </div>
+    <Container maxWidth="sm">
+      <div>
+        {movies && <Grid container spacing={3}>
+          {movies.map((m) => (
+            <Grid item key={m.id} xs={4}>
+              <ShowMovie key={m.id.toString()} movie={m} />
+            </Grid>
+          ))}
+        </Grid>}
+      </div>
+    </Container>
   );
 }
 
