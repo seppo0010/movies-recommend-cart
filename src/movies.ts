@@ -41,7 +41,9 @@ export function getGenres(genres: number[]): Genre[] {
   return genres.map((g) => genresIdToGenre[g.toString()])
 }
 
+let movies: null | Movie[] = null;
 export async function getMovies(): Promise<Movie[]> {
+  if (movies) return movies
   const df = (await d3.csv(moviesMetadata)).map((m) => { 
   return {
     id: parseInt(m.id || '0'),
@@ -56,5 +58,48 @@ export async function getMovies(): Promise<Movie[]> {
     voteAverage: parseFloat(m.vote_average || '0'),
     posterPath: m.poster_path,
   }})
-  return df.sort((a, b) => d3.descending(a.popularity, b.popularity))
+  movies = df.sort((a, b) => d3.descending(a.popularity, b.popularity))
+  return movies
+}
+
+// https://stackoverflow.com/a/2450976
+function shuffle(array: any[]): any[] {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+const moviesToRankNumForward = 100
+const moviesToRankNumDisplay = 12
+export async function getMoviesToRank(currentMoviesToRank: Movie[], rankedMovies: string[]): Promise<Movie[]> {
+  const moviesToRank: (Movie | null)[] = currentMoviesToRank.slice()
+  for (let i = 0; i < moviesToRankNumDisplay; i++) {
+    if (moviesToRank[i]) {
+      const id = (moviesToRank[i] as Movie).id
+      if (rankedMovies.includes(id.toString())) {
+        moviesToRank[i] = null
+      }
+    } else {
+      moviesToRank[i] = null
+    }
+  }
+  const nextMovies = shuffle((await getMovies())
+    .filter((m) => !rankedMovies.includes(m.id.toString()))
+    .filter((m) => !currentMoviesToRank.map((m) => m.id).includes(m.id))
+    .slice(0, moviesToRankNumForward))
+  for (let i = 0; i < moviesToRankNumDisplay; i++) {
+    if (!moviesToRank[i]) {
+      moviesToRank[i] = nextMovies.pop()
+    }
+  }
+  return moviesToRank as Movie[]
 }
