@@ -45,7 +45,7 @@ export function getAllGenres(): Genre[] {
 }
 
 let movies: null | Movie[] = null;
-export async function getMovies(): Promise<Movie[]> {
+export async function getAllMovies(): Promise<Movie[]> {
   if (movies) return movies
   const df = (await d3.csv(moviesMetadata)).map((m) => { 
   return {
@@ -95,7 +95,7 @@ export async function getMoviesToRank(currentMoviesToRank: Movie[], rankedMovies
       moviesToRank[i] = null
     }
   }
-  const nextMovies = shuffle((await getMovies())
+  const nextMovies = shuffle((await getAllMovies())
     .filter((m) => !rankedMovies.includes(m.id.toString()))
     .filter((m) => !currentMoviesToRank.map((m) => m.id).includes(m.id))
     .slice(0, moviesToRankNumForward))
@@ -105,4 +105,9 @@ export async function getMoviesToRank(currentMoviesToRank: Movie[], rankedMovies
     }
   }
   return moviesToRank as Movie[]
+}
+
+export async function getMovies(movieIds: string[]): Promise<Movie[]> {
+  const allMovies = await getAllMovies()
+  return movieIds.map((id) => allMovies.find((m) => m.id.toString() === id) as Movie)
 }

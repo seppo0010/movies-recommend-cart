@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import './App.css';
 import ShowMovieList from './ShowMovieList';
 import ShowTree from './ShowTree';
+import VotedList from './VotedList';
 import Container from '@material-ui/core/Container';
 import store from './store'
 
@@ -17,6 +18,7 @@ function App() {
           </Container>
           <ShowTree />
         </div>
+        <VotedList />
       </Provider>
     </Container>
   );

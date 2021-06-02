@@ -1,4 +1,4 @@
-import { Movie, getMoviesToRank, getMovies, getAllGenres } from './movies'
+import { Movie, getMoviesToRank, getAllMovies, getAllGenres } from './movies'
 import { RootState } from './store'
 import { updateModel } from './moviePredictor'
 
@@ -9,13 +9,17 @@ export function movieVoterReducer(state: {[movieId: string]: number} = {}, actio
   if (typeof state !== typeof undefined && action.type === ACTION_MOVIE_VOTE) {
     state = Object.fromEntries(Object.entries(state))
     const {movieId, vote} = action
-    state[movieId.toString()] = vote
+    if (typeof vote === typeof undefined) {
+      delete state[movieId.toString()]
+    } else {
+      state[movieId.toString()] = vote
+    }
     return state
   }
   return state
 }
 
-function setMovieVote(movieId: number, vote: number) {
+function setMovieVote(movieId: number, vote: number | undefined) {
   return {
     type: ACTION_MOVIE_VOTE,
     movieId,
@@ -37,7 +41,7 @@ export function setMoviesToVote(movies: Movie[]) {
   }
 }
 
-export function updateMovieVote(movieId: number, vote: number) {
+export function updateMovieVote(movieId: number, vote: number | undefined) {
   return function(dispatch: any, getState: () => RootState) {
     return (async () => {
       await dispatch(setMovieVote(movieId, vote))
@@ -45,7 +49,7 @@ export function updateMovieVote(movieId: number, vote: number) {
       const movies = state.moviesToVote;
       const votes = state.movieVoter
       await dispatch(setMoviesToVote(await getMoviesToRank(movies, Object.keys(votes))))
-      dispatch(updateModel(votes, await getMovies(), getAllGenres()))
+      dispatch(updateModel(votes, await getAllMovies(), getAllGenres()))
     })()
   }
 }
