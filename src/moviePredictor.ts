@@ -4,8 +4,14 @@ import { Movie, Genre } from './movies'
 const ACTION_UPDATE_MODEL = 'update_model'
 
 
-export function movieToRow(movie: undefined | Movie, genres: Genre[]) {
-  return genres.map((g) => movie && movie.genres.includes(g.id) ? 1 : 0)
+export function movieToRow(movie: Movie, genres: Genre[]): number[] {
+  return (genres.map((g) => movie.genres.includes(g.id) ? 1 : 0) as number[])
+    .concat([movie.budget, movie.popularity, movie.voteAverage])
+}
+
+const getColumns = (genres: Genre[]) => {
+  return genres.map((g) => g.name)
+    .concat(['budget', 'popularity', 'voteAverage'])
 }
 
 export function moviePredictorReducer(state: {
@@ -33,17 +39,18 @@ export function moviePredictorReducer(state: {
     }
     const X = Object.keys(votes).map((movieId) => {
       const movie = action.movies.find((m) => m.id.toString() === movieId)
+      if (!movie) {
+        return getColumns(action.genres).map(() => 0)
+      }
       return movieToRow(movie, action.genres)
     })
     const y = Object.values(votes)
-    const columns = action.genres.map((g) => g.name)
     const model = new DTRegression()
     model.train(X, y)
-    console.log(model.toJSON())
     return {
       model,
       tree: model.toJSON().root,
-      columns,
+      columns: getColumns(action.genres),
     }
   }
   return state

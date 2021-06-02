@@ -3,7 +3,7 @@ import Graph from "react-graph-vis";
 import { useSelector } from 'react-redux'
 import { RootState } from './store'
 import { TreeNode, TreeBranch, TreeLeaf } from 'ml-cart'
-const { uuid } = require('uuidv4');
+const { v4 } = require('uuid');
 
 function format(n: number) {
     return Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)
@@ -61,7 +61,7 @@ export default function ShowTree() {
   };
   return (
     <Graph
-      key={uuid()}
+      key={v4()}
       graph={graph}
       options={options}
     />
