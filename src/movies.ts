@@ -82,7 +82,7 @@ function shuffle(array: any[]): any[] {
 }
 
 const moviesToRankNumForward = 100
-const moviesToRankNumDisplay = 12
+const moviesToRankNumDisplay = 9
 export async function getMoviesToRank(currentMoviesToRank: Movie[], rankedMovies: string[]): Promise<Movie[]> {
   const moviesToRank: (Movie | null)[] = currentMoviesToRank.slice()
   for (let i = 0; i < moviesToRankNumDisplay; i++) {

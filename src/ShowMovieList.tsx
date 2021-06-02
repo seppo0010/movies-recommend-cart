@@ -6,7 +6,9 @@ import { setMoviesToVote } from './movieVoter'
 import './App.css';
 import ShowMovie from './ShowMovie';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import { RootState } from './store'
+import { updateMovieVote } from './movieVoter'
 
 export default function ShowMovieList() {
   const movies = useSelector((state: RootState) => state.moviesToVote);
@@ -19,8 +21,12 @@ export default function ShowMovieList() {
       }
     })()
   })
+  const hideAll = () => {
+    movies.forEach((movie) => dispatch(updateMovieVote(movie.id, 0)))
+  }
   return (
     <div>
+      <Button onClick={() => hideAll()}>Hide all</Button>
       {<Grid container spacing={3}>
         {movies.map((m) => (
           <Grid item key={m.id} xs={4}>
