@@ -40,6 +40,9 @@ function getGenresId(genres: Genre[]): number[] {
 export function getGenres(genres: number[]): Genre[] {
   return genres.map((g) => genresIdToGenre[g.toString()])
 }
+export function getAllGenres(): Genre[] {
+  return Object.values(genresIdToGenre)
+}
 
 let movies: null | Movie[] = null;
 export async function getMovies(): Promise<Movie[]> {

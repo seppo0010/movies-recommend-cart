@@ -1,5 +1,6 @@
-import { Movie, getMoviesToRank } from './movies'
+import { Movie, getMoviesToRank, getMovies, getAllGenres } from './movies'
 import { RootState } from './store'
+import { updateModel } from './moviePredictor'
 
 const ACTION_MOVIE_VOTE = 'set_movie_vote'
 const ACTION_SET_MOVIES_TO_VOTE = 'set_movies_to_vote'
@@ -44,6 +45,7 @@ export function updateMovieVote(movieId: number, vote: number) {
       const movies = state.moviesToVote;
       const votes = state.movieVoter
       await dispatch(setMoviesToVote(await getMoviesToRank(movies, Object.keys(votes))))
+      dispatch(updateModel(votes, await getMovies(), getAllGenres()))
     })()
   }
 }
