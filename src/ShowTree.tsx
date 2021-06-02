@@ -26,7 +26,7 @@ export default function ShowTree() {
     return graphNode
   }
   const addLeafToGraph = (node: TreeLeaf) => {
-    const graphNode = {id: ++id, label: `${Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(node.distribution.data[0][1] || 0)}`}
+    const graphNode = {id: ++id, label: `${Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(node.distribution.data[0][1] || 0.5)}`}
     graph.nodes.push(graphNode)
     return graphNode
   }

@@ -26,7 +26,7 @@ export default function ShowMovieList() {
   }
   return (
     <div>
-      <Button onClick={() => hideAll()}>Hide all</Button>
+      {movies && <Button onClick={() => hideAll()}>Hide all</Button>}
       {<Grid container spacing={3}>
         {movies.map((m) => (
           <Grid item key={m.id} xs={4}>
