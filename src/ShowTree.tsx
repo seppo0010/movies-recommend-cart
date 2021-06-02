@@ -10,6 +10,8 @@ function format(n: number) {
 }
 export default function ShowTree() {
   const moviePredictor = useSelector((state: RootState) => state.moviePredictor)
+  const moviesToVote = useSelector((state: RootState) => state.moviesToVote);
+  if (!moviesToVote || moviesToVote.length === 0) return <></>
   let id = 0
   const graph: {
     nodes: {id: number, label: string}[],

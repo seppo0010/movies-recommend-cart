@@ -26,6 +26,8 @@ export default function VotedList() {
       setMovies(Object.fromEntries(ms.map((m) => [m.id.toString(), m])))
     })()
   })
+  const moviesToVote = useSelector((state: RootState) => state.moviesToVote);
+  if (!moviesToVote || moviesToVote.length === 0) return <></>
   async function unvote(movieId: string) {
     dispatch(updateMovieVote(parseInt(movieId), undefined))
   }
