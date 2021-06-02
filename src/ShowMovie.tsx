@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -41,11 +41,16 @@ function ShowMovie(props: {movie: Movie}) {
   const genres = getAllGenres()
   const [posterURL, setPosterURL] = useState<string | null>()
   const moviePredictor = useSelector((state: RootState) => state.moviePredictor)
-  useState(() => {
-    (async () => {
-      setPosterURL(await getMoviePosterURL(movie))
-    })()
-  })
+
+  useEffect(() => {
+    let isMounted = true;
+    getMoviePosterURL(movie).then(data => {
+      if (isMounted) setPosterURL(data);
+    })
+    return () => { isMounted = false };
+  }, [movie])
+
+
   const classes = useStyles();
   const dispatch = useDispatch()
 
