@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/movies-recommend-cart/static/css/main.97d9546c.chunk.css",
-    "main.js": "/movies-recommend-cart/static/js/main.8e748a34.chunk.js",
-    "main.js.map": "/movies-recommend-cart/static/js/main.8e748a34.chunk.js.map",
-    "runtime-main.js": "/movies-recommend-cart/static/js/runtime-main.65f7e494.js",
-    "runtime-main.js.map": "/movies-recommend-cart/static/js/runtime-main.65f7e494.js.map",
-    "static/js/2.e5865513.chunk.js": "/movies-recommend-cart/static/js/2.e5865513.chunk.js",
-    "static/js/2.e5865513.chunk.js.map": "/movies-recommend-cart/static/js/2.e5865513.chunk.js.map",
-    "static/js/3.d9c49b3c.chunk.js": "/movies-recommend-cart/static/js/3.d9c49b3c.chunk.js",
-    "static/js/3.d9c49b3c.chunk.js.map": "/movies-recommend-cart/static/js/3.d9c49b3c.chunk.js.map",
+    "main.js": "/movies-recommend-cart/static/js/main.f5b5af40.chunk.js",
+    "main.js.map": "/movies-recommend-cart/static/js/main.f5b5af40.chunk.js.map",
+    "runtime-main.js": "/movies-recommend-cart/static/js/runtime-main.67e33e88.js",
+    "runtime-main.js.map": "/movies-recommend-cart/static/js/runtime-main.67e33e88.js.map",
+    "static/js/2.9eeba560.chunk.js": "/movies-recommend-cart/static/js/2.9eeba560.chunk.js",
+    "static/js/2.9eeba560.chunk.js.map": "/movies-recommend-cart/static/js/2.9eeba560.chunk.js.map",
+    "static/js/3.b6e4c1fc.chunk.js": "/movies-recommend-cart/static/js/3.b6e4c1fc.chunk.js",
+    "static/js/3.b6e4c1fc.chunk.js.map": "/movies-recommend-cart/static/js/3.b6e4c1fc.chunk.js.map",
     "index.html": "/movies-recommend-cart/index.html",
     "static/css/main.97d9546c.chunk.css.map": "/movies-recommend-cart/static/css/main.97d9546c.chunk.css.map",
-    "static/js/2.e5865513.chunk.js.LICENSE.txt": "/movies-recommend-cart/static/js/2.e5865513.chunk.js.LICENSE.txt",
+    "static/js/2.9eeba560.chunk.js.LICENSE.txt": "/movies-recommend-cart/static/js/2.9eeba560.chunk.js.LICENSE.txt",
     "static/media/movies_metadata.a9b44b26.csv": "/movies-recommend-cart/static/media/movies_metadata.a9b44b26.csv"
   },
   "entrypoints": [
-    "static/js/runtime-main.65f7e494.js",
-    "static/js/2.e5865513.chunk.js",
+    "static/js/runtime-main.67e33e88.js",
+    "static/js/2.9eeba560.chunk.js",
     "static/css/main.97d9546c.chunk.css",
-    "static/js/main.8e748a34.chunk.js"
+    "static/js/main.f5b5af40.chunk.js"
   ]
 }
