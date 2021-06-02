@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getMoviesToRank } from './movies'
@@ -14,7 +14,7 @@ export default function ShowMovieList() {
   const movies = useSelector((state: RootState) => state.moviesToVote);
   const votes = useSelector((state: RootState) => state.movieVoter);
   const dispatch = useDispatch();
-  useState(() => {
+  useEffect(() => {
     (async () => {
       if (!movies.length) {
         dispatch(setMoviesToVote(await getMoviesToRank([], Object.keys(votes))))
