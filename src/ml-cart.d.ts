@@ -6,12 +6,10 @@ declare module 'ml-cart' {
     right: TreeNode
   }
   export interface TreeLeaf {
-    distribution: {
-      data: number[][],
-    }
+    distribution: number
   }
   export type TreeNode = TreeBranch | TreeLeaf
-  export class DecisionTreeClassifier {
+  export class DecisionTreeRegression {
     constructor(options?: {
       gainFunction?: string,
       splitFunction?: string,
@@ -20,5 +18,6 @@ declare module 'ml-cart' {
     })
     train(data: number[][], labels: number[])
     toJSON(): { root: TreeNode }
+    predict(data: number[][]): number[]
   }
 }

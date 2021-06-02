@@ -5,6 +5,9 @@ import { RootState } from './store'
 import { TreeNode, TreeBranch, TreeLeaf } from 'ml-cart'
 const { uuid } = require('uuidv4');
 
+function format(n: number) {
+    return Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)
+}
 export default function ShowTree() {
   const moviePredictor = useSelector((state: RootState) => state.moviePredictor)
   let id = 0
@@ -20,13 +23,13 @@ export default function ShowTree() {
     graph.nodes.push(graphNode)
     const left = addNodeToGraph(node.left)
     const right = addNodeToGraph(node.right)
-    const splitValue = Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(node.splitValue)
+    const splitValue = format(node.splitValue)
     graph.edges.push({from: graphNode.id, to: left.id, label: `< ${splitValue}`})
     graph.edges.push({from: graphNode.id, to: right.id, label: `>= ${splitValue}`})
     return graphNode
   }
   const addLeafToGraph = (node: TreeLeaf) => {
-    const graphNode = {id: ++id, label: `${Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(node.distribution.data[0][1] || 0.5)}`}
+    const graphNode = {id: ++id, label: `${format(node.distribution)}`}
     graph.nodes.push(graphNode)
     return graphNode
   }
@@ -42,8 +45,6 @@ export default function ShowTree() {
   const options = {
     interaction: {
       dragNodes: false,
-      dragView: false,
-      zoomView: false,
     },
     layout: {
       hierarchical: {

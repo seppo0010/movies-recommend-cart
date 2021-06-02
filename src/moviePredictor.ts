@@ -1,21 +1,20 @@
-import { DecisionTreeClassifier as DTClassifier, TreeNode } from 'ml-cart';
+import { DecisionTreeRegression as DTRegression, TreeNode } from 'ml-cart';
 import { Movie, Genre } from './movies'
 
 const ACTION_UPDATE_MODEL = 'update_model'
 
-const options = {
-  gainFunction: 'gini',
-  maxDepth: 10,
-  minNumSamples: 3,
-};
+
+export function movieToRow(movie: undefined | Movie, genres: Genre[]) {
+  return genres.map((g) => movie && movie.genres.includes(g.id) ? 1 : 0)
+}
 
 export function moviePredictorReducer(state: {
-  model: DTClassifier,
+  model: DTRegression | null,
   tree: TreeNode,
   columns: string[],
 } = {
-  model: new DTClassifier(options),
-  tree: { distribution: { data: [[0, 0]] } },
+  model: null,
+  tree: { distribution: 0.5 },
   columns: [],
 }, action: {
   type: string,
@@ -34,12 +33,13 @@ export function moviePredictorReducer(state: {
     }
     const X = Object.keys(votes).map((movieId) => {
       const movie = action.movies.find((m) => m.id.toString() === movieId)
-      return action.genres.map((g) => movie && movie.genres.includes(g.id) ? 1 : 0)
+      return movieToRow(movie, action.genres)
     })
     const y = Object.values(votes)
     const columns = action.genres.map((g) => g.name)
-    const model = new DTClassifier(options)
+    const model = new DTRegression()
     model.train(X, y)
+    console.log(model.toJSON())
     return {
       model,
       tree: model.toJSON().root,
