@@ -1,11 +1,13 @@
 declare module 'ml-cart' {
   export interface TreeBranch {
+    splitValue: number
+    splitColumn: number
     left: TreeNode
     right: TreeNode
   }
   export interface TreeLeaf {
     distribution: {
-      data: [number, number],
+      data: number[][],
     }
   }
   export type TreeNode = TreeBranch | TreeLeaf

@@ -12,9 +12,11 @@ const options = {
 export function moviePredictorReducer(state: {
   model: DTClassifier,
   tree: TreeNode,
+  columns: string[],
 } = {
   model: new DTClassifier(options),
-  tree: { distribution: { data: [0, 0 ] } },
+  tree: { distribution: { data: [[0, 0]] } },
+  columns: [],
 }, action: {
   type: string,
   movies: Movie[],
@@ -27,13 +29,22 @@ export function moviePredictorReducer(state: {
         .filter(([_1, v]) => v !== 0)
         .map(([k, v]) => [k, (v + 1) / 2])
     )
+    if (!Object.values(votes).length) {
+      return state
+    }
     const X = Object.keys(votes).map((movieId) => {
       const movie = action.movies.find((m) => m.id.toString() === movieId)
       return action.genres.map((g) => movie && movie.genres.includes(g.id) ? 1 : 0)
     })
     const y = Object.values(votes)
-    state.model.train(X, y)
-    state.tree = state.model.toJSON().root
+    const columns = action.genres.map((g) => g.name)
+    const model = new DTClassifier(options)
+    model.train(X, y)
+    return {
+      model,
+      tree: model.toJSON().root,
+      columns,
+    }
   }
   return state
 }
