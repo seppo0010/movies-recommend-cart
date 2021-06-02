@@ -1,4 +1,5 @@
-import { Movie } from './movies'
+import { Movie, getMoviesToRank } from './movies'
+import { RootState } from './store'
 
 const ACTION_MOVIE_VOTE = 'set_movie_vote'
 const ACTION_SET_MOVIES_TO_VOTE = 'set_movies_to_vote'
@@ -13,7 +14,7 @@ export function movieVoterReducer(state: {[movieId: string]: number} = {}, actio
   return state
 }
 
-export function setMovieVote(movieId: number, vote: number) {
+function setMovieVote(movieId: number, vote: number) {
   return {
     type: ACTION_MOVIE_VOTE,
     movieId,
@@ -32,5 +33,17 @@ export function setMoviesToVote(movies: Movie[]) {
   return {
     type: ACTION_SET_MOVIES_TO_VOTE,
     movies,
+  }
+}
+
+export function updateMovieVote(movieId: number, vote: number) {
+  return function(dispatch: any, getState: () => RootState) {
+    return (async () => {
+      await dispatch(setMovieVote(movieId, vote))
+      const state = getState()
+      const movies = state.moviesToVote;
+      const votes = state.movieVoter
+      await dispatch(setMoviesToVote(await getMoviesToRank(movies, Object.keys(votes))))
+    })()
   }
 }

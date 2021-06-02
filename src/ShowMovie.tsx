@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -12,10 +12,7 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import Typography from '@material-ui/core/Typography';
 
 import { Movie, getMoviePosterURL } from './movies'
-import { setMovieVote } from './movieVoter'
-import { RootState } from './store'
-import { getMoviesToRank } from './movies'
-import { setMoviesToVote } from './movieVoter'
+import { updateMovieVote } from './movieVoter'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,13 +41,9 @@ function ShowMovie(props: {movie: Movie}) {
   })
   const classes = useStyles();
   const dispatch = useDispatch()
-  const movies = useSelector((state: RootState) => state.moviesToVote);
-  const votes = useSelector((state: RootState) => state.movieVoter);
 
   async function vote(vote: number) {
-    dispatch(setMovieVote(movie.id, vote))
-    // this ain't pretty, but it works
-    dispatch(setMoviesToVote(await getMoviesToRank(movies, Object.keys(votes).concat([movie.id.toString()]))))
+    dispatch(updateMovieVote(movie.id, vote))
   }
   return (
     <Card className={classes.root}>
